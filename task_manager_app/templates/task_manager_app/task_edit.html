@@ -1,0 +1,13 @@
+{% extends 'task_manager_app/base.html' %}
+
+{% block title %}Editar Tarea{% endblock %}
+
+{% block content %}
+    <h1>Editar Tarea</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+    <a href="{% url 'task_manager_app:task_detail' task.pk %}" class="btn btn-secondary">Cancelar</a>
+{% endblock %}

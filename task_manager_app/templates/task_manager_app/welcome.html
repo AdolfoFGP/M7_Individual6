@@ -1,0 +1,17 @@
+{% extends 'task_manager_app/base.html' %}
+{% load static %}
+
+{% block title %}Bienvenido{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <img src="{% static 'task_manager_app/img/logo.png' %}" alt="Logo de la aplicación" class="img-fluid mb-4">
+        <h1>Bienvenido, {{ user.username }}</h1>
+        <p>Bienvenido a la aplicación de seguimiento de tareas.</p>
+        {% if user.is_authenticated %}
+            <p><a href="{% url 'task_manager_app:logout' %}" class="btn btn-danger">Logout</a></p>
+        {% else %}
+            <p><a href="{% url 'task_manager_app:login' %}" class="btn btn-primary">Login</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

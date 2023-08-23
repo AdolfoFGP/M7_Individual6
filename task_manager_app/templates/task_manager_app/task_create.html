@@ -1,0 +1,12 @@
+{% extends 'task_manager_app/base.html' %}
+
+{% block title %}Agregar Tarea{% endblock %}
+
+{% block content %}
+    <h1>Agregar Tarea</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Crear Tarea</button>
+    </form>
+{% endblock %}

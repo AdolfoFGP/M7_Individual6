@@ -1,0 +1,18 @@
+{% extends 'task_manager_app/base.html' %}
+
+{% block title %}Listado de Tareas Pendientes{% endblock %}
+
+{% block content %}
+    <h1>Listado de Tareas</h1>
+    <form method="get" class="mb-4">
+        {{ form }}
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="{% url 'task_manager_app:task_list' %}" class="btn btn-secondary ml-2">Limpiar Filtros</a>
+    </form>
+    <a href="{% url 'task_manager_app:task_create' %}" class="btn btn-primary mb-2">Agregar Tarea</a>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.due_date }} <a href="{% url 'task_manager_app:task_detail' task.id %}">Ver</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
