@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from .forms import TaskForm, TaskFilterForm
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     error_message = None
@@ -26,9 +27,11 @@ def logout_view(request):
     logout(request)
     return redirect('task_manager_app:welcome')
 
+
 def welcome_view(request):
     return render(request, 'task_manager_app/welcome.html')
 
+@login_required
 def task_list_view(request):
     tasks = Task.objects.filter(user=request.user).order_by('due_date')
 
@@ -66,7 +69,7 @@ def register_view(request):
 
 
 
-
+@login_required
 def task_create_view(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -79,6 +82,7 @@ def task_create_view(request):
         form = TaskForm()
     return render(request, 'task_manager_app/task_create.html', {'form': form})
 
+@login_required
 def task_delete_view(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     if request.method == 'POST':
@@ -86,7 +90,7 @@ def task_delete_view(request, task_id):
         return redirect('task_manager_app:task_list')  # Redirige al listado de tareas
     return render(request, 'task_manager_app/task_delete.html', {'task': task})
 
-
+@login_required
 def task_detail_view(request, pk):
     task = get_object_or_404(Task, pk=pk)
     
@@ -99,6 +103,7 @@ def task_detail_view(request, pk):
     context = {'task': task}
     return render(request, 'task_manager_app/task_detail.html', context)
 
+@login_required
 def task_edit_view(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == 'POST':
@@ -110,6 +115,7 @@ def task_edit_view(request, pk):
         form = TaskForm(instance=task)
     return render(request, 'task_manager_app/task_edit.html', {'form': form, 'task': task})
 
+@login_required
 def task_complete_view(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.state = 'completada'
